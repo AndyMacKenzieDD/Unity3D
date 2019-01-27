@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -54,13 +55,21 @@ public class PlayerController : MonoBehaviour
         {
             playerAnimator.SetInteger("PlayerAnim", 2);
             playerRigitBody.velocity = new Vector2(0, 0);
-            playerRigitBody.AddForce(transform.up * 5, ForceMode2D.Impulse);
+            playerRigitBody.AddForce(transform.up * 10, ForceMode2D.Impulse);
         }
         playerPosition = transform.position;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Bullet")
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
+    }
+
     bool IsGrounded()
     {
-        return Physics2D.Raycast(transform.position, Vector2.down, 0.0083f, groundLayer);
+        return Physics2D.Raycast(transform.position, Vector2.down, 0.1f, groundLayer);
     }
 }
